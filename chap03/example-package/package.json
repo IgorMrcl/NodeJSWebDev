@@ -1,0 +1,15 @@
+{
+  "name": "example-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "example",
+    "package"
+  ],
+  "author": "Igor",
+  "license": "ISC"
+}
