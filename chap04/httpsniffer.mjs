@@ -28,3 +28,16 @@ export function sniffOn(server) {
     console.log("clientError");
   }); // server.on('connection', e_connection);
 }
+
+export function reqToString(req) {
+  var ret = `request ${req.method} ${req.httpVersion} ${req.url}` +'\n';
+  ret += JSON.stringify(url.parse(req.url, true)) +'\n';
+  var keys = Object.keys(req.headers);
+  for (var i = 0, l = keys.length; i < l; i++) {
+      var key = keys[i];
+      ret += `${i} ${key}: ${req.headers[key]}` +'\n';
+  }
+  if (req.trailers)
+      ret += util.inspect(req.trailers) +'\n';
+  return ret;
+}
