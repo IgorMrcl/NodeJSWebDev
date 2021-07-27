@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env PORT=4242 DEBUG=fibonacci:* node ./bin/www"
+    "start": "cross-env DEBUG=fibonacci:* node ./bin/www",
+    "startrest": "cross-env DEBUG=fibonacci:* SERVERPORT=3002 node ./scripts/fiboserver",
+    "server": "cross-env DEBUG=fibonacci:* SERVERPORT=3002 node ./bin/www",
+    "client": "cross-env DEBUG=fibonacci:* SERVERPORT=3002 node ./scripts/fiboclient"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
