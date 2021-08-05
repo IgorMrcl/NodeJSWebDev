@@ -43,12 +43,11 @@ app.use(
   })
 );
 
-//$env:REQUEST_LOG_FORMAT="common"
 if (process.env.REQUEST_LOG_FILE) {
   app.use(logger(process.env.REQUEST_LOG_FORMAT || 'dev')); 
 }
 
-//Determina e inicia a persistência de dados 
+//Start data persistency
 useNotesModel(process.env.NOTES_MODEL ? process.env.NOTES_MODEL :
   "memory")
 .then(store => {  })
