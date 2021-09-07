@@ -62,7 +62,11 @@ typings/
 .sqlite3
 VendasRev-sequelize.sqlite3
 MongoData/
+notes-fs-data/
+notes.level/
+data/
+
+#Session storage
+sessions/
 
 .vscode/
-VendasRev-sequelize.sqlite3
-*.sqlite3

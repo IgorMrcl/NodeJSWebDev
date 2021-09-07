@@ -1,20 +1,24 @@
 // const util = require('util');
 import { default as express } from "express";
 import { NotesStore as notes } from '../models/notes-store.mjs';
+import { ensureAuthenticated, twitterLogin } from './users.mjs'; 
 export const router = express.Router();
 
+
 // Add Note.
-router.get("/add", (req, res, next) => {
+router.get("/add", ensureAuthenticated, (req, res, next) => {
   res.render("noteedit", {
+    twitterLogin: twitterLogin,
     title: "Add a Note",
     docreate: true,
     notekey: "",
+    user: req.user,
     note: undefined,
   });
 });
 
 // Save Note (update)
-router.post("/save", async (req, res, next) => {
+router.post("/save", ensureAuthenticated, async (req, res, next) => {
   try {
     let note;
     if (req.body.docreate === "create") {
@@ -42,8 +46,10 @@ router.get("/view", async (req, res, next) => {
   try {
     let note = await notes.read(req.query.key);
     res.render("noteview", {
+      twitterLogin: twitterLogin,
       title: note ? note.title : "",
       notekey: req.query.key,
+      user: req.user ? req.user : undefined, 
       note: note,
     });
   } catch (err) {
@@ -52,12 +58,14 @@ router.get("/view", async (req, res, next) => {
 });
 
 // Delete note (destroy)
-router.get("/destroy", async (req, res, next) => {
+router.get("/destroy", ensureAuthenticated, async (req, res, next) => {
   try {
     let note = await notes.read(req.query.key);
     res.render("notedestroy", {
+      twitterLogin: twitterLogin,
       title: note ? `Delete ${note.title}`  : "",
       notekey: req.query.key,
+      user: req.user ? req.user : undefined, 
       note: note,
     });
   } catch (err) {
@@ -65,7 +73,7 @@ router.get("/destroy", async (req, res, next) => {
   }
 });
 
-router.post("/destroy/confirm", async (req, res, next) => {
+router.post("/destroy/confirm", ensureAuthenticated, async (req, res, next) => {
   try {
     await notes.destroy(req.body.notekey);
     res.redirect("/");
@@ -75,13 +83,15 @@ router.post("/destroy/confirm", async (req, res, next) => {
 });
 
 // Edit note (update)
-router.get("/edit", async (req, res, next) => {
+router.get("/edit", ensureAuthenticated, async (req, res, next) => {
   try {
     const note = await notes.read(req.query.key);
     note.docreate = false;
     res.render("noteedit", {
+      twitterLogin: twitterLogin,
       title: note ? note.title : "",
       notekey: req.query.key,
+      user: req.user, 
       note: note,
       docreate: false,
     });

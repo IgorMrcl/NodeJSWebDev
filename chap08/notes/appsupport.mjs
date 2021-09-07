@@ -3,7 +3,7 @@ import { default as DBG } from "debug";
 import * as util from "util";
 import { NotesStore } from './models/notes-store.mjs';
 
-const debug = DBG("notes:debug");
+const debug = DBG("notes:info");
 export function normalizePort(val) {
   const port = parseInt(val, 10);
   if (isNaN(port)) {

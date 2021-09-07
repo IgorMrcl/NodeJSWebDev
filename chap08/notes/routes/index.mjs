@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { NotesStore as notes } from '../models/notes-store.mjs';
 export const router = express.Router();
+import { twitterLogin } from './users.mjs'
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -12,7 +13,12 @@ router.get('/', async (req, res, next) => {
     });
     const notelist = await Promise.all(keyPromises);
     // console.log(util.inspect(notelist));
-    res.render('index', { title: 'Notes', notelist: notelist });
-  } catch (err) { 
-      next(err); }
+    res.render('index', {
+      title: 'Notes', notelist: notelist,
+      user: req.user ? req.user : undefined,
+      twitterLogin: twitterLogin
+    });
+  } catch (err) {
+    next(err);
+  }
 });

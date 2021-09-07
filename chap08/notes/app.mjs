@@ -14,8 +14,6 @@ import { default as DBG } from "debug";
 import { router as indexRouter } from "./routes/index.mjs";
 import { router as notesRouter } from "./routes/notes.mjs";
 import { useModel as useNotesModel } from "./models/notes-store.mjs";
-import { router as indexRouter } from "./routes/index.mjs";
-import { router as notesRouter } from "./routes/notes.mjs";
 import { router as usersRouter, initPassport } from "./routes/users.mjs";
 import session from "express-session";
 import sessionFileStore from "session-file-store";
@@ -23,11 +21,16 @@ const FileStore = sessionFileStore(session);
 export const sessionCookieName = "notescookie.sid";
 
 export const app = express();
-const debug = DBG("notes:debug");
+const debug = DBG("notes:info");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 hbs.registerPartials(path.join(__dirname, "partials"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -66,10 +69,7 @@ useNotesModel(process.env.NOTES_MODEL ? process.env.NOTES_MODEL : "memory")
     onError({ code: "ENOTESSTORE", error });
   });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/assets/vendor/bootstrap", express.static(path.join(__dirname, "node_modules", "bootstrap", "dist")));
 app.use("/assets/vendor/jquery", express.static(path.join(__dirname, "node_modules", "jquery", "dist")));
 app.use("/assets/vendor/popper.js", express.static(path.join(__dirname, "node_modules", "popper.js", "dist", "umd")));
@@ -78,6 +78,7 @@ app.use("/assets/vendor/feather-icons", express.static(path.join(__dirname, "nod
 // Router function lists
 app.use("/", indexRouter);
 app.use("/notes", notesRouter);
+app.use('/users', usersRouter);
 
 // error handlers
 // catch 404 and forward to error handler
@@ -94,5 +95,5 @@ server.on("error", onError);
 server.on("listening", onListening);
 
 server.on("request", (req, res) => {
-  debug(`${new Date().toISOString()} request ${req.method} ${req.url}`);
+  //debug(`${new Date().toISOString()} request ${req.method} ${req.url}`);
 });
