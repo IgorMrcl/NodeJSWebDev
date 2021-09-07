@@ -11,3 +11,5 @@
     - Sqlite3 directly
     - Sequelize with sqlite3
     - MongoDb
+- Socket.IO
+- Passport
