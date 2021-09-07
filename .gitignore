@@ -1,5 +1,3 @@
-
-
 # Logs
 logs
 *.log
@@ -60,6 +58,7 @@ typings/
 
 #Local database
 .sqlite3
+*.sqlite3
 VendasRev-sequelize.sqlite3
 MongoData/
 notes-fs-data/
@@ -70,5 +69,3 @@ data/
 sessions/
 
 .vscode/
-
-.teste
