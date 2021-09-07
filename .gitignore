@@ -57,9 +57,7 @@ typings/
 .next
 
 #Local database
-.sqlite3
 *.sqlite3
-VendasRev-sequelize.sqlite3
 MongoData/
 notes-fs-data/
 notes.level/
@@ -69,3 +67,5 @@ data/
 sessions/
 
 .vscode/
+
+*log.txt
